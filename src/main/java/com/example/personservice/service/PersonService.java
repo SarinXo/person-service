@@ -19,8 +19,7 @@ public class PersonService {
     }
 
     public List<Person> getPersons(){
-        List<Person> per = repository.findAll();
-        return per;
+        return repository.findAll();
     }
 
     public Optional<Person> findById(int id){

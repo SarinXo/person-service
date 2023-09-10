@@ -26,8 +26,7 @@ public class PersonController {
 
     @GetMapping("/persons")
     public List<Person> findPersons() {
-        List<Person> per = service.getPersons();
-        return per;
+        return service.getPersons();
     }
 
     @GetMapping("/persons/{id}")
