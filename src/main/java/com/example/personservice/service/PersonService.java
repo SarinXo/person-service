@@ -26,11 +26,11 @@ public class PersonService {
         return repository.findById(id);
     }
 
-    public Person pushInDb(Person person){
+    public Optional<Person> pushInDb(Person person){
         Optional<Person> person2 = repository.findById(person.getId());
         if(person2.isEmpty())
-            repository.save(person);
-        return person2.orElse(person);
+            return Optional.of(repository.save(person));
+        return Optional.empty();
     }
 
 }

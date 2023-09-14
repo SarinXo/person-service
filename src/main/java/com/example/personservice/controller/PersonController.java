@@ -24,9 +24,12 @@ public class PersonController {
         this.service = service;
     }
 
+    //По-хорошему нужно установить макс размер, но этого задание не требует
     @GetMapping("/persons")
-    public List<Person> findPersons() {
-        return service.getPersons();
+    public ResponseEntity<List<Person>> findPersons() {
+        List<Person> personList = service.getPersons();
+        var status = personList.isEmpty() ? HttpStatus.NOT_FOUND : HttpStatus.OK;
+        return new ResponseEntity<>(personList, status);
     }
 
     @GetMapping("/persons/{id}")
@@ -34,15 +37,15 @@ public class PersonController {
         Optional<Person> person = service.findById(id);
         return person.isPresent()
                 ? new ResponseEntity<>(person.get() , HttpStatus.OK)
-                : new ResponseEntity<>(new Person(), HttpStatus.NOT_FOUND);
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/persons")
-    public ResponseEntity<Person> save(@RequestBody Person person) {
-        Person person2 = service.pushInDb(person);
-        return person2.equals(person)
-                ? new ResponseEntity<>(service.findById(person.getId()).get(), HttpStatus.BAD_REQUEST)
-                : new ResponseEntity<>(person2, HttpStatus.CREATED);
+    public ResponseEntity<?> save(@RequestBody Person person) {
+        Optional<Person> person2 = service.pushInDb(person);
+        return person2.isPresent()
+                ? new ResponseEntity<>(person2, HttpStatus.CREATED)
+                : new ResponseEntity<>("Попытка заменить запись", HttpStatus.BAD_REQUEST);
     }
 
 }
