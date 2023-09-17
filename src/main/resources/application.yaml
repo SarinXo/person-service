@@ -14,5 +14,9 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8888/eureka/
 
+url:
+  services:
+    location: http://localhost:8088/location-service
+
 server:
   port: 0

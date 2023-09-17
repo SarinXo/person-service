@@ -33,4 +33,7 @@ public class PersonService {
         return Optional.empty();
     }
 
+    public boolean existsById(int id) {
+        return repository.existsById(id);
+    }
 }
