@@ -27,11 +27,15 @@ public class PersonController {
     private final PersonService service;
     private final RestTemplate restTemplate;
 
+    private final String instanceId;
+
 
     @Autowired
     public PersonController(@Value("${url.services.location}")String locationUrl,
+                            @Value("${eureka.instance.instance-id}")String instanceId,
                             PersonService service,
                             RestTemplate restTemplate) {
+        this.instanceId = instanceId;
         this.locationUrl = locationUrl;
         this.service = service;
         this.restTemplate = restTemplate;
@@ -75,6 +79,11 @@ public class PersonController {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @GetMapping("/service/id")
+    public String getServiceId(){
+        return instanceId;
     }
 
 }
